@@ -28,6 +28,12 @@ class Procedure extends Model
 
                     }
 
+                    public function user(){
+
+                        return $this->belongsTo(Employee::class);
+
+                            }
+
                     public function notices(){
 
                         return $this->hasMany(Notice::class);

@@ -1,5 +1,22 @@
 <x-app-layout>
 
+    <script>
+        @if (Session::has('success'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.success("{{ session('success') }}");
+        @endif
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://kit.fontawesome.com/c100dce926.js" crossorigin="anonymous"></script>
+        <div class="p-6 text-gray-900">
+            @if (session()->has('success'))
+            <div>
+                <p class="bg-green-500">{{ session()->get('message') }}</p>
+            </div>
+        @endif
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('الموظفين') }}
@@ -31,6 +48,9 @@
                                 <th>  رقم الهاتف</th>
                                 <th> البريد الالكتروني  </th>
                                 <th> الصلاحيات  </th>
+                                <th> التعديل  </th>
+
+
 
                             </tr>
                         </thead>
@@ -44,7 +64,24 @@
                                     <td>{{ $employee->name }}</td>
                                     <td>{{ $employee->phone_number }}               </td>
                                     <td>  {{ $employee->email }}   </td>
-                                    <td>  {{ $employee->role }}   </td>
+                                    <td>    @if ($employee->role == 1)
+                                        مدخل البيانات
+                                    @elseif ($employee->role  == 2)
+                                    مراجع
+                                        @elseif ($employee->role  == 3)
+                                        مدقق
+                                        @elseif ($employee->role  == 4)
+                                        معتمد
+                                    @endif
+</td>
+
+
+
+
+                                    <td>   <a href="{{ route('employee.edit',  $employee->id) }}"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i
+                                            class="fa-solid fa-pen-to-square"></i> </a>  </td>
+
                                 </tr>
                             @endforeach
 

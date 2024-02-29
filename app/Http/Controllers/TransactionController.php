@@ -41,6 +41,8 @@ class TransactionController extends Controller
 
 
 
+
+
         $user = Auth::user();
 
         $transaction = new Transaction($req);
@@ -48,7 +50,7 @@ class TransactionController extends Controller
 
         $procedure = new Procedure();
         $procedure->transaction_id = $transaction->id;
-        $procedure->employee_id = $user->id;
+        $procedure->user_id = $user->id;
         $procedure->procedure_types_id = 1;
         $procedure->save();
 
@@ -63,15 +65,21 @@ class TransactionController extends Controller
 
         public function adminshow(Transaction $transaction)
    {
+
+    $query = DB::raw('IFNULL(employees.name, users.name) AS name');
+
+
     $procedures = DB::table('procedures')
-    ->join('employees', 'procedures.employee_id', '=', 'employees.id')
+    ->leftjoin('employees', 'procedures.employee_id', '=', 'employees.id')
+    ->leftjoin('users', 'procedures.user_id', '=', 'users.id')
     ->join('procedure_types', 'procedures.procedure_types_id', '=', 'procedure_types.id')
     ->leftjoin('employees AS to_employees', 'procedures.to_employee', '=', 'to_employees.id')
-    ->select('employees.name AS name', 'procedure_types.name AS procedure_name', 'procedures.created_at AS procedure_time', 'to_employees.name AS to_name' , 'procedures.*' )
+    ->select($query, 'procedure_types.name AS procedure_name', 'procedures.created_at AS procedure_time', 'to_employees.name AS to_name' , 'procedures.*')
     ->where('procedures.transaction_id', $transaction->id)
     ->orderByDesc('procedure_time')
     ->get();
 
+    //dd($procedures);
     $employees = DB::table('employees')->get();
        return view('transaction.adminshow', [
            'transaction' => $transaction,
@@ -107,7 +115,7 @@ class TransactionController extends Controller
 
            $procedure = new Procedure();
            $procedure->transaction_id = $transaction->id;
-           $procedure->employee_id = $user->id;
+           $procedure->user_id = $user->id;
            $procedure->procedure_types_id = $validatedData['transactions_type'];
            $procedure->save();
 
@@ -127,7 +135,7 @@ class TransactionController extends Controller
 
            $procedure = new Procedure();
            $procedure->transaction_id = $transaction->id;
-           $procedure->employee_id = $user->id;
+           $procedure->user_id = $user->id;
            $procedure->procedure_types_id = $validatedData['transactions_type'];
            $procedure->save();
 
@@ -137,7 +145,7 @@ class TransactionController extends Controller
 
            $procedure = new Procedure();
            $procedure->transaction_id = $transaction->id;
-           $procedure->employee_id = $user->id;
+           $procedure->user_id = $user->id;
            $procedure->to_employee = $validatedData['to_employee'];
            $procedure->procedure_types_id = $validatedData['transactions_type'];
            $procedure->save();
@@ -290,16 +298,17 @@ $transactions = Transaction::has('lastProcedure')
         abort(403);
     }
 
-
-
+    $query = DB::raw('IFNULL(employees.name, users.name) AS name');
     $procedures = DB::table('procedures')
-    ->join('employees', 'procedures.employee_id', '=', 'employees.id')
+    ->leftjoin('employees', 'procedures.employee_id', '=', 'employees.id')
+    ->leftjoin('users', 'procedures.user_id', '=', 'users.id')
     ->join('procedure_types', 'procedures.procedure_types_id', '=', 'procedure_types.id')
     ->leftjoin('employees AS to_employees', 'procedures.to_employee', '=', 'to_employees.id')
-    ->select('employees.name AS name', 'procedure_types.name AS procedure_name', 'procedures.created_at AS procedure_time', 'to_employees.name AS to_name' , 'procedures.*' )
+    ->select($query, 'procedure_types.name AS procedure_name', 'procedures.created_at AS procedure_time', 'to_employees.name AS to_name' , 'procedures.*')
     ->where('procedures.transaction_id', $transaction->id)
     ->orderByDesc('procedure_time')
     ->get();
+
 
     $employees = DB::table('employees')->get();
        return view('transaction.show', [
@@ -390,5 +399,19 @@ public function search(Request $request)
 
     return view('transaction.index', ['transactions' => $filterTransactions]);
 }
+
+public function adminsearch(Request $request)
+{
+    $request->validate([
+        'id' => 'required'
+    ]);
+
+    $search = $request->id;
+
+    $filterTransactions = Transaction::where('id',  $search )->paginate(5);
+
+    return view('transaction.adminindex', ['transactions' => $filterTransactions]);
+}
+
 }
 

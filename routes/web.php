@@ -32,7 +32,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::get('/employees' , [EmployeeController::class, 'index'])->name('employee.index');
+    Route::get('/admin/employees' , [EmployeeController::class, 'index'])->name('employee.index');
+
+    Route::get('/admin/employees/{employee}/edit' , [EmployeeController::class, 'edit'])->name('employee.edit');
+    Route::patch('/admin/employees/{employee}/edit' , [EmployeeController::class, 'update'])->name('employee.update');
+
     Route::get('/admin/transaction' , [TransactionController::class, 'adminindex'])->name('transaction.adminindex');
     Route::get('/admin/transaction/{transaction}/show' , [TransactionController::class, 'adminshow'])->name('transaction.adminshow');
     Route::get('/admin/transaction/{transaction}/update' , [TransactionController::class, 'adminedit'])->name('transaction.adminedit');
@@ -41,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/admin/transaction/create' , [TransactionController::class, 'adminstore'])->name('transaction.adminstore');
 
+    Route::post('/admin/transaction/search', [TransactionController::class, 'adminsearch'])->name('transaction.adminsearch');
 
     Route::patch('/admin/transaction/{transaction}/update' , [TransactionController::class, 'adminupdate'])->name('transaction.adminupdate');
     Route::get('/admin/transaction/{transaction}/notice/show' , [NoticeController::class, 'adminshow'])->name('notice.adminshow');

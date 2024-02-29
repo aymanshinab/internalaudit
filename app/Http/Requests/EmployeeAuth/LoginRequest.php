@@ -32,6 +32,15 @@ class LoginRequest extends FormRequest
         ];
     }
 
+
+    public function messages(){
+        return [
+            'required' => "*هذا الحقل مطلوب.",
+            'email' => 'يرجى ادخال بريد إلكتروني صالح.',
+            // 'password' => ['required', 'string'],
+        ];
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -45,7 +54,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => "البيانات التي تم ادخالها غير صحيحة",
             ]);
         }
 

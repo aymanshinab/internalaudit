@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId("transaction_id");
-            $table->foreignId("employee_id");
+            $table->foreignId("employee_id")->nullable();
+            $table->foreignId("user_id")->nullable();
             $table->foreignId("procedure_types_id");
             $table->integer('to_employee')->nullable();
 

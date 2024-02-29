@@ -10,11 +10,14 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 <div class="flex justify-between"><div>
-                    <form action="transaction.search" method="get">
 
-                        <label for="search">البحث</label>
-                        <x-text-input name="search" type="text" class="h-10"></x-text-input>
-                        <x-primary-button>بحث</x-primary-button>
+                        <form action="{{ route('transaction.search') }}" method="post">
+                            @csrf
+                        <label for="id">البحث</label>
+                        <x-text-input placeholder="رقم المعاملة" name="id"  id="id"  class="h-10"></x-text-input>
+                        <x-primary-button  type="submit" >
+                          {{ __('بحث') }}
+                       </x-primary-button>
 
 
                     </form>
@@ -40,8 +43,8 @@
                                 <th>رقم الملخص</th>
                                 <th>نوع المعاملة</th>
                                 <th>السنة</th>
-                                <th>الإدارة</th>
                                 <th>الشهر</th>
+                                <th>الإدارة</th>
                                 <th>البيانات</th>
                                 <th>حالة المعاملة </th>
                                 <th>عرض</th>
@@ -57,15 +60,16 @@
                                     @if ($transaction->idnum != null)
                                     <td>{{ $transaction->idnum }}</td>
                                 @else
-                                    <td>لا يوجد</td>
+                                    <td>- </td>
                                 @endif
                                 @if ($transaction->summary != null)
                                 <td>{{ $transaction->summary }}</td>
                             @else
-                                <td>لا يوجد</td>
+                                <td>- </td>
                             @endif
                                     <td>{{ $transaction->type }}</td>
                                     <td>{{ $transaction->year }}               </td>
+                                    <td>{{ $transaction->month }}             </td>
                                     <td>
 
 
@@ -82,7 +86,7 @@
 
 
                                     </td>
-                                    <td>{{ $transaction->month }}             </td>
+
                                     <td>{{ $transaction->data }}              </td>
                                     <td>
                                         @if ($transaction->transactions_type == 1)

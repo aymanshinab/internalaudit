@@ -30,11 +30,25 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
+
+        $messages = [
+            'required' => "*هذا الحقل مطلوب.",
+            'digits_between' => ' رقم الهاتف يجب أن يكون مكون من عشرة أرقام.',
+            'starts_with' => ' رقم الهاتف يجب أن يبدأ بـ 091, 092, 094, 021.',
+            'email.unique' => '    البريد الالكتروني مستعمل.',
+            'phone_number.unique' => '     رقم الهاتف مستعمل.',
+            'starts_with' => ' رقم الهاتف يجب أن يبدأ بـ 091, 092, 094, 021.',
+            'password' => 'يجب أن يتكون حقل كلمة المرور من 8 أحرف على الأقل  .',
+
+        ];
+
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ], $messages);
 
         $user = User::create([
             'name' => $request->name,

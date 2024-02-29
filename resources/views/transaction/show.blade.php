@@ -4,8 +4,8 @@
         location.reload();
     }
 </script>
-<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-<script src="https://kit.fontawesome.com/c100dce926.js" crossorigin="anonymous"></script>
+{{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+<script src="https://kit.fontawesome.com/c100dce926.js" crossorigin="anonymous"></script> --}}
 
 <x-employee-layout>
     <x-slot name="header">
@@ -128,7 +128,7 @@
                                                     <div>
                                                         <select
                                                             class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                                                            name="to_employee" x-model="selectedOption2">
+                                                            name="to_employee">
                                                             @foreach ($employees as $employee)
                                                           <option value="{{ $employee->id }}" >  {{ $employee->name }}
 </option>
@@ -317,7 +317,7 @@
                                 <x-primary-button type="submit">موافق</x-primary-button>
                             </div>
 
-                            <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
+                            {{-- <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script> --}}
 
 
                         </form>
@@ -354,7 +354,7 @@
 
                             @foreach ($procedures as $procedure)
                                 <tr>
-                                    <td>{{ $procedure->name }}</td>
+                                    <td>{{ $procedure->name }} </td>
                                     <td>{{ $procedure->procedure_name }} </td>
                                     <td>{{ $procedure->procedure_time }} </td>
                                 <td> {{ $procedure->to_name }}</td>

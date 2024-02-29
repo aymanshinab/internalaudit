@@ -17,6 +17,11 @@ Route::group(['middleware' => ['guest:employee'], 'prefix' => 'employee', 'as' =
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
+
+
+
+
+
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
 
