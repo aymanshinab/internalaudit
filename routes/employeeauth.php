@@ -41,6 +41,11 @@ Route::group(['middleware' => ['guest:employee'], 'prefix' => 'employee', 'as' =
 });
 
 Route::group(['middleware' => ['auth:employee'], 'prefix' => 'employee', 'as' => 'employee.'], function (){
+
+
+
+
+
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 

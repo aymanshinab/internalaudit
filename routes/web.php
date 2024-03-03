@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\empProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\EmployeeController;
@@ -60,6 +61,11 @@ Route::get('/employee/dashboard', function () {
 
 Route::middleware('auth:employee')->group(function () {
 
+
+    Route::get('/employee/profile', [empProfileController::class, 'empedit'])->name('profile.edit');
+    Route::patch('/employee/profile', [empProfileController::class, 'empupdate'])->name('profile.update');
+
+
 Route::get('/employee/transaction' , [TransactionController::class, 'index'])->name('transaction.index');
 
     Route::get('/employee/transaction/create' , [TransactionController::class, 'create'])->name('transaction.create');
@@ -76,8 +82,6 @@ Route::get('/employee/transaction' , [TransactionController::class, 'index'])->n
 
     Route::post('/employee/transaction/search', [TransactionController::class, 'search'])->name('transaction.search');
 
-    Route::get('/employee/profile', [ProfileController::class, 'empedit'])->name('empprofile.edit');
-    Route::patch('/employee/profile', [ProfileController::class, 'empupdate'])->name('empprofile.update');
 });
 
 require __DIR__.'/employeeauth.php';
