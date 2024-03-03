@@ -41,10 +41,10 @@ class EmployeeController extends Controller
 
     $request->validate([
         'name' => ['required', 'string', 'max:255'],
-         'phone_number' => 'required|digits_between:10,10|numeric|starts_with:091,092,094,021 ',
+         'phone_number' => 'required|digits_between:9,9|numeric|starts_with:91,92,94,21 ',
          'role' => ['required', 'integer', ],
          'email' => ['required', 'string', 'lowercase', 'email', 'max:255',],
-         'password' => ['required', 'confirmed', Rules\Password::defaults()],
+
      ]);
 
      $employee->update([
@@ -52,6 +52,26 @@ class EmployeeController extends Controller
         'phone_number' => $request->phone_number,
         'role' => $request->role,
         'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'password' => $request->password ? Hash::make($request->password) : $employee->password,
+     ]);
+
+return redirect(route('employee.index'))->with(['success' => 'تم تعديل الموظف بنجاح']);
+
+
+
+
+
+}
+public function passupdate(Request $request, Employee $employee)
+{
+
+    $request->validate([
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+     ]);
+
+     $employee->update([
+
         'password' => Hash::make($request->password),
      ]);
 
@@ -62,5 +82,4 @@ return redirect(route('employee.index'))->with(['success' => 'تم تعديل ا
 
 
 }
-
 }

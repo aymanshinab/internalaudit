@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/employees/{employee}/edit' , [EmployeeController::class, 'edit'])->name('employee.edit');
     Route::patch('/admin/employees/{employee}/edit' , [EmployeeController::class, 'update'])->name('employee.update');
+    Route::put('/admin/employees/{employee}/edit' , [EmployeeController::class, 'passupdate'])->name('employee.passupdate');
 
     Route::get('/admin/transaction' , [TransactionController::class, 'adminindex'])->name('transaction.adminindex');
     Route::get('/admin/transaction/{transaction}/show' , [TransactionController::class, 'adminshow'])->name('transaction.adminshow');
