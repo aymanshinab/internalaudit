@@ -62,8 +62,8 @@ Route::get('/employee/dashboard', function () {
 Route::middleware('auth:employee')->group(function () {
 
 
-    Route::get('/employee/profile', [empProfileController::class, 'empedit'])->name('profile.edit');
-    Route::patch('/employee/profile', [empProfileController::class, 'empupdate'])->name('profile.update');
+    Route::get('/employee/profile', [empProfileController::class, 'empedit'])->name('empprofile.edit');
+    Route::patch('/employee/profile', [empProfileController::class, 'empupdate'])->name('empprofile.update');
 
 
 Route::get('/employee/transaction' , [TransactionController::class, 'index'])->name('transaction.index');
