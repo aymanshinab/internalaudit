@@ -143,15 +143,35 @@ class TransactionController extends Controller
        } elseif ($validatedData['transactions_type'] == '4') {
            $transaction->update($validatedData);
 
+
+
            $procedure = new Procedure();
+
+
+        //    if ($transaction->to_employee ==  $procedure->to_employee){
+        //     abort(403);
+        //    }
+
+
+        $latestProcedure = Transaction::where('id', $transaction->id)
+        ->latest()
+        ->first();
+        // dd( $latestProcedure);
+       //dd( $validatedData['to_employee']);
+    if ($latestProcedure->to_employee != $validatedData['to_employee']) {
+
+
+    $procedure = new Procedure();
            $procedure->transaction_id = $transaction->id;
            $procedure->user_id = $user->id;
            $procedure->to_employee = $validatedData['to_employee'];
            $procedure->procedure_types_id = $validatedData['transactions_type'];
            $procedure->save();
+           return redirect(route("transaction.adminshow", $transaction->id))->with(['success' => 'تم اجراء اعادة التوجيه بنجاح']);
        }
+       return redirect(route("transaction.adminshow", $transaction->id))->with(['fill' => 'خطا! لايمكن ارسال المعاملة الي نفس الشخص اكثر من مرة']);
 
-       return redirect(route("transaction.adminshow", $transaction->id))->with(['success' => 'تم اجراء اعادة التوجيه بنجاح']);
+       }
    }
 
 
@@ -384,7 +404,7 @@ $transactions = Transaction::has('lastProcedure')
         $procedure->save();
     }
 
-    return redirect(route("transaction.show", $transaction->id))->with(['success' => 'تم اجراء اعادة التوجيه بنجاح']);
+    return redirect(route("transaction.index", $transaction->id))->with(['success' => 'تم اجراء اعادة التوجيه بنجاح']);
 }
 
 public function search(Request $request)
@@ -393,10 +413,15 @@ public function search(Request $request)
         'id' => 'required'
     ]);
 
+    // if ( Auth::guard('employee')->user()->id !== $transaction->to_employee) {
+    //     abort(403);
+    // }
+
     $search = $request->id;
-
-    $filterTransactions = Transaction::where('id',  $search )->paginate(5);
-
+    $employee = Auth::guard('employee')->user();
+//  dd($employee);
+    $filterTransactions = Transaction::where('id',  $search  )->where("to_employee" , $employee->id )->paginate(5);
+//    dd($filterTransactions);
     return view('transaction.index', ['transactions' => $filterTransactions]);
 }
 

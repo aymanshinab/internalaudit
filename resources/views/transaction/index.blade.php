@@ -102,7 +102,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('transaction.show', ['transaction' => $transaction->id]) }}">
-                                            <x-primary-button class="bg-blue-600 hover:bg-blue-900">
+                                            <x-primary-button class="bg-[#346885] hover:bg-blue-900">
                                                 {{ __('عرض') }}
                                             </x-primary-button>
                                         </a>
@@ -212,7 +212,7 @@
                  </td>
                  <td>
                      <a href="{{ route('transaction.show', ['transaction' => $tran->id]) }}">
-                         <x-primary-button class="bg-blue-600 hover:bg-blue-900">
+                         <x-primary-button class="bg-[#346885] hover:bg-blue-900">
                              {{ __('عرض') }}
                          </x-primary-button>
                      </a>

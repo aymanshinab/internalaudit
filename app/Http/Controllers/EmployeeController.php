@@ -39,13 +39,25 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
 {
 
+
+    $messages = [
+        'required' => "*هذا الحقل مطلوب.",
+        'digits_between' => ' رقم الهاتف يجب أن يكون مكون من تسعة أرقام.',
+        'starts_with' => ' رقم الهاتف يجب أن يبدأ بـ 91, 92, 94, 21.',
+        'email.unique' => '    البريد الالكتروني مستعمل.',
+        'phone_number.unique' => '     رقم الهاتف مستعمل.',
+        'password' => 'يجب أن يتكون حقل كلمة المرور من 8 أحرف على الأقل  .',
+
+    ];
+
+
     $request->validate([
         'name' => ['required', 'string', 'max:255'],
          'phone_number' => 'required|digits_between:9,9|numeric|starts_with:91,92,94,21 ',
          'role' => ['required', 'integer', ],
          'email' => ['required', 'string', 'lowercase', 'email', 'max:255',],
 
-     ]);
+    ],  $messages);
 
      $employee->update([
         'name' => $request->name,
@@ -66,9 +78,15 @@ return redirect(route('employee.index'))->with(['success' => 'تم تعديل ا
 public function passupdate(Request $request, Employee $employee)
 {
 
+    $messages = [
+
+        'password' => '  يجب أن يتكون حقل كلمة المرور من 8 أحرف على الأقل وان يكون متطابق .',
+
+    ];
+
     $request->validate([
         'password' => ['required', 'confirmed', Rules\Password::defaults()],
-     ]);
+     ],  $messages );
 
      $employee->update([
 
