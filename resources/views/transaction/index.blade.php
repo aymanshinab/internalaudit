@@ -15,6 +15,12 @@
                             @csrf
                         <label for="id">البحث</label>
                         <x-text-input placeholder="رقم المعاملة" name="id"  id="id"  class="h-10"></x-text-input>
+                        <select class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" name="management_id" onchange="showFields(this.value)">
+                            <option value="1">مكتب المدير العام</option>
+                            <option value="2">الإدارة المالية</option>
+                            <option value="3">إدارة الموارد البشرية</option>
+                            <option value="4">إدارة الخدمات</option>
+                          </select>
                         <x-primary-button  type="submit" >
                           {{ __('بحث') }}
                        </x-primary-button>

@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/admin/transaction/create' , [TransactionController::class, 'adminstore'])->name('transaction.adminstore');
 
-    Route::post('/admin/transaction/search', [TransactionController::class, 'adminsearch'])->name('transaction.adminsearch');
+    Route::post('/admin/transaction', [TransactionController::class, 'adminsearch'])->name('transaction.adminsearch');
 
     Route::patch('/admin/transaction/{transaction}/update' , [TransactionController::class, 'adminupdate'])->name('transaction.adminupdate');
     Route::get('/admin/transaction/{transaction}/notice/show' , [NoticeController::class, 'adminshow'])->name('notice.adminshow');
@@ -81,7 +81,7 @@ Route::get('/employee/transaction' , [TransactionController::class, 'index'])->n
 
     Route::patch('/employee/transaction/{transaction}/update' , [TransactionController::class, 'update'])->name('transaction.update');
 
-    Route::post('/employee/transaction/search', [TransactionController::class, 'search'])->name('transaction.search');
+    Route::post('/employee/transaction', [TransactionController::class, 'search'])->name('transaction.search');
 
 });
 
